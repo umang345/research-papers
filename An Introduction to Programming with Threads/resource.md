@@ -107,6 +107,19 @@ Birrell advocates for the "Monitor" style:
 
 <b>Key Insight</b>: The lock protects the invariant of the data. When the lock is held, the data might be in an inconsistent state (intermediate calculation). When the lock is released, the invariant must be restored.
 
+<b>Invariant (Explicit Definition)</b>
+
+An invariant is a condition that must always be true when the mutex is not held.
+
+Examples:
+- buffer >= 0
+- buffer <= MAX
+- readers == 0 OR writer == 0
+- queue_size accurately reflects the number of elements
+
+Threads are allowed to temporarily violate invariants only while holding the mutex.
+The mutex exists to give a thread a safe region where invariants may be broken
+and then restored before releasing the lock.
 
 ### <b>Using Condition Variables</b>
 This is the most technical part of the paper. A Condition Variable (CV) is always paired with a Mutex (M).
