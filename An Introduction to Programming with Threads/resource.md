@@ -30,7 +30,12 @@ To digest this paper, you must understand the underlying hardware-software contr
 
 - <b>Concept</b>: A process is a container (memory, file handles). A thread is a unit of execution (registers, stack, PC) inside that container.
 
-- <b>Resource</b>: Operating Systems: Three Easy Pieces, Chapter 26 (Concurrency: An Introduction).
+- <b>Free Resources</b>:<br> 
+
+    - Book: [Operating Systems: Three Easy Pieces (OSTEP)](https://pages.cs.wisc.edu/~remzi/OSTEP/), Chapter 26: Concurrency: An Introduction.
+
+    - Why: This is widely considered the gold standard for free OS education. Read clear definitions of instruction pointers, stack pointers, and address spaces.
+
 
 <b>Prerequisite 2: Atomicity and Race Conditions</b>
 
@@ -38,7 +43,12 @@ To digest this paper, you must understand the underlying hardware-software contr
 
 - <b>Concept</b>: Understanding that count++ is not one instruction but three (load, add, store), and how context switches between them cause corruption.
 
-- <b>Resource</b>: Computer Systems: A Programmer's Perspective, Chapter 12 (Concurrent Programming).
+- <b>Free Resources</b>:<br> 
+
+    - Book: [The Little Book of Semaphores](https://greenteapress.com/wp/semaphores/), Chapter 1 & 2.
+
+    - Why: Allen B. Downey’s book is the definitive free guide to solving synchronization puzzles. It explains exactly why bad interleavings happen.
+
 
 <b>Prerequisite 3: The C Memory Model (Stack vs. Heap)</b>
 
@@ -46,7 +56,11 @@ To digest this paper, you must understand the underlying hardware-software contr
 
 - <b>Concept</b>: Stack frames are private; pointers to heap data are shared.
 
-- <b>Resource</b>: The C Programming Language (K&R), Sections on pointers and memory.
+- <b>Resource</b>:<br> 
+
+    - Guide: [Beej's Guide to C Programming](https://beej.us/guide/bgc/), Section on Pointers and Memory.
+
+    - Why: Beej provides a colloquial, engineer-focused explanation of how memory actually works in C, without academic fluff.
 
 <hr>
 
