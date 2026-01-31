@@ -377,6 +377,11 @@ void end_write() {
     pthread_mutex_unlock(&m);
 }
 ```
+<b>Key Takeaways</b>:
+
+- Threads must cooperate in their own shutdown
+- Killing a thread externally risks deadlock
+- This pattern maps directly to Go’s <b>context.Context</b> and C#’s <b>CancellationToken</b>
 
 <hr><br><br>
 
