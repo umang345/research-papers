@@ -318,6 +318,66 @@ void* consumer(void* arg) {
 
 - <b>Atomicity</b>: <b>pthread_cond_wait</b> atomically unlocks the mutex and sleeps. This prevents the "lost wakeup" problem.
 
+<hr>
+
+### Concept: Reader-Writer Lock
+
+<b>Problem Description</b><br>
+Many threads want to read shared data concurrently, but writers must have exclusive access.
+
+<b>Key Invariant</b>:
+- Either one writer holds the resource
+- Or multiple readers hold it
+- Never both
+
+Correct C Example
+
+```c
+#include <pthread.h>
+
+pthread_mutex_t m = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t can_read = PTHREAD_COND_INITIALIZER;
+pthread_cond_t can_write = PTHREAD_COND_INITIALIZER;
+
+int readers = 0;
+int writer = 0;
+
+void begin_read() {
+    pthread_mutex_lock(&m);
+    while (writer) {
+        pthread_cond_wait(&can_read, &m);
+    }
+    readers++;
+    pthread_mutex_unlock(&m);
+}
+
+void end_read() {
+    pthread_mutex_lock(&m);
+    readers--;
+    if (readers == 0) {
+        pthread_cond_signal(&can_write);
+    }
+    pthread_mutex_unlock(&m);
+}
+
+void begin_write() {
+    pthread_mutex_lock(&m);
+    while (writer || readers > 0) {
+        pthread_cond_wait(&can_write, &m);
+    }
+    writer = 1;
+    pthread_mutex_unlock(&m);
+}
+
+void end_write() {
+    pthread_mutex_lock(&m);
+    writer = 0;
+    pthread_cond_broadcast(&can_read);
+    pthread_cond_signal(&can_write);
+    pthread_mutex_unlock(&m);
+}
+```
+
 <hr><br><br>
 
 ## 7. Common Misunderstandings and Traps
